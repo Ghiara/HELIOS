@@ -1,0 +1,1 @@
+from helios.configs.hrl.maze.base_conf import *
