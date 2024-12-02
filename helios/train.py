@@ -23,8 +23,8 @@ from helios.components.trainer_base import BaseTrainer
 from helios.utils.wandb import WandBLogger
 from helios.components.params import get_args
 
-WANDB_PROJECT_NAME = 'spirl_dpmm'
-WANDB_ENTITY_NAME = 'yuanmeng961228-technical-university-of-munich'
+WANDB_PROJECT_NAME = 'YOUR-PROJECT-NAME'
+WANDB_ENTITY_NAME = 'YOUR-ENTITY-NAME'
 
 
 class ModelTrainer(BaseTrainer):
@@ -50,6 +50,8 @@ class ModelTrainer(BaseTrainer):
         # -- add folder name for dpmm saving --
         dpmm_folder_name = f'{args.prefix}_{datetime.datetime.now().strftime("_%Y-%m-%d_%H-%M-%S")}'
         self.conf.model.dpmm_folder_name = dpmm_folder_name
+        self.dpm_update_epoch = 0
+        # -------------------------------------
         
         # buld dataset, model. logger, etc.
         train_params = AttrDict(logger_class=self._hp.logger,
@@ -71,8 +73,6 @@ class ModelTrainer(BaseTrainer):
         self.optimizer = self.get_optimizer_class()(filter(lambda p: p.requires_grad, self.model.parameters()), lr=self._hp.lr)
         self.evaluator = self._hp.evaluator(self._hp, self.log_dir, self._hp.top_of_n_eval,
                                             self._hp.top_comp_metric, tb_logger=self.logger_test)
-        # for DPMM Training:
-        self.next_DPMM_fitting_epoch = 0
 
 
         # load model params from checkpoint
@@ -92,7 +92,6 @@ class ModelTrainer(BaseTrainer):
     def _default_hparams(self):
         default_dict = ParamDict({
             'model': None,
-            'train_Diva_model':True, # GASP ADJUSTMENT - all DPMM based models should have it on TRUE
             'model_test': None,
             'logger': None,
             'logger_test': None,
@@ -113,6 +112,9 @@ class ModelTrainer(BaseTrainer):
             'top_of_n_eval': 1,     # number of samples used at eval time
             'top_comp_metric': None,    # metric that is used for comparison at eval time (e.g. 'mse')
             'logging_target': 'wandb',
+            
+            # HELIOS special _hp params
+            'use_DPM_model':True,
         })
         return default_dict
     
@@ -132,15 +134,15 @@ class ModelTrainer(BaseTrainer):
                     'optimizer': self.optimizer.state_dict(),
                 },  os.path.join(self._hp.exp_path, 'weights'), CheckpointHandler.get_ckpt_name(epoch))
 
-            # Saves DPMM parameters as well:
-
-            if not self.args.dont_save and self._hp.train_Diva_model:
+            # save dpm params
+            if not self.args.dont_save and self._hp.use_DPM_model:
                 save_checkpoint({
                     'epoch': epoch,
                     'global_step': self.global_step,
                     'state_dict': self.model.state_dict(),
                     'optimizer': self.optimizer.state_dict(),
-                    # save dpmm if train with DPMM
+                    
+                    # -- DPMM --
                     'DPMM_bnp_model': self.model.bnp_model,
                     'DPMM_bnp_info_dict': self.model.bnp_info_dict,
                     'DPMM_comp_mu': self.model.comp_mu,
@@ -209,37 +211,46 @@ class ModelTrainer(BaseTrainer):
             del output, losses
             self.global_step = self.global_step + 1
 
-        ### FIT DPMM at the end of the epoch  
+
         outputs = torch.stack(output_list)
-
+        
+        # -- Update DPM in an interval to prevent from overfitting --
         fit_dpmm = False
-
-        # Adaptive Fitting
-        if epoch == self.next_DPMM_fitting_epoch:
+        if epoch == self.dpm_update_epoch:
             fit_dpmm = True
-            interval = int(np.exp(4*epoch/self._hp.num_epochs)//1)
-            self.next_DPMM_fitting_epoch += interval
+            if epoch < 20:
+                self.dpm_update_epoch += 1
+            elif epoch >=20 and epoch < 30:
+                self.dpm_update_epoch += 2
+            elif epoch >= 30 and epoch < 40:
+                self.dpm_update_epoch += 4
 
 
         if hasattr(self.model, "cluster_logging"):
             self.model.cluster_logging.append(self.model.num_clusters)
         
-        if self._hp.train_Diva_model and fit_dpmm:
+        if self._hp.use_DPM_model and fit_dpmm:
           z = torch.cat([outputs[i] for i in range(0, len(outputs))])
           self.model.fit_dpmm(z)
+        # ----------------------------------------------------------
+        
         del outputs, output_list
+        
+        
         
     def val(self):
         print('Running Testing')
         if self.args.test_prediction:
             start = time.time()
             self.model_test.load_state_dict(self.model.state_dict())
+            
             if hasattr(self.model, "bnp_model"):
-                print("Updating bnp_model")
+                print("... Updating DPM_model ...")
                 self.model_test.bnp_model = self.model.bnp_model
                 self.model_test.bnp_info_dict = self.model.bnp_info_dict
                 self.model_test.comp_mu = self.model.comp_mu
                 self.model_test.comp_var = self.model.comp_var
+            
             losses_meter = RecursiveAverageMeter()
             self.model_test.eval()
             self.evaluator.reset()

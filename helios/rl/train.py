@@ -1,14 +1,14 @@
 import torch
 import os
 import imp
-import json
+
 from tqdm import tqdm
 from collections import defaultdict
 
-from helios.rl.components.params import get_args
 from helios.train import set_seeds, make_path, datetime_str, save_config, get_exp_dir, save_checkpoint
 from helios.components.checkpointer import CheckpointHandler, save_cmd, save_git, get_config_path
 from helios.utils.general_utils import AttrDict, ParamDict, AverageTimer, timing, pretty_print
+from helios.rl.components.params import get_args
 from helios.rl.utils.mpi import update_with_mpi_config, set_shutdown_hooks, mpi_sum, mpi_gather_experience
 from helios.rl.utils.wandb import WandBLogger
 from helios.rl.utils.rollout_utils import RolloutSaver
@@ -16,8 +16,8 @@ from helios.rl.components.sampler import Sampler
 from helios.rl.components.replay_buffer import RolloutStorage
 
 
-WANDB_PROJECT_NAME = 'spirl_dpmm'
-WANDB_ENTITY_NAME = 'yuanmeng961228-technical-university-of-munich'
+WANDB_PROJECT_NAME = 'YOUR-PROJECT-NAME'
+WANDB_ENTITY_NAME = 'YOUR-ENTITY-NAME'
 
 
 class RLTrainer:
@@ -297,15 +297,18 @@ class RLTrainer:
             CheckpointHandler.load_weights(weights_file, self.agent,
                                            load_step=True, strict=self.args.strict_weight_loading)
         self.agent.load_state(self._hp.exp_path)
+        
+        # -- load DPM pre-trained models --
         if hasattr(self.agent, "bnp_model"):
-                print("-- Agent uses DPMM prior knowledge, loading pretrained weights --")
+                print("-- Enable DPM skill prior, load DPM prior skill space --")
                 checkpoint = torch.load(weights_file, map_location=self.agent.device)
                 self.agent.bnp_model = checkpoint['DPMM_bnp_model']
-                self.agent.bnp_info_dict = checkpoint['DPMM_bnp_info_dict']
                 self.agent.comp_mu = checkpoint['DPMM_comp_mu']
                 self.agent.comp_var = checkpoint['DPMM_comp_var']
+                self.agent.bnp_info_dict = checkpoint['DPMM_bnp_info_dict']
                 self.agent.cluster_logging = checkpoint['DPMM_logging_clusters']
-                print("-- DPMM Components loaded --")
+                print("-- Pre-trained DPM loaded --")
+        
         self.agent.to(self.device)
 
         return start_epoch

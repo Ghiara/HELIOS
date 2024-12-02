@@ -10,17 +10,17 @@ from helios.models.skill_prior_mdl import SkillPriorMdl
 from helios.modules.subnetworks import Predictor, BaseProcessingLSTM
 from helios.modules.recurrent_modules import BaseProcessingGRU
 from helios.modules.variational_inference import MultivariateGaussian
-from helios.modules.losses import KLDivLoss, NLL, DPMM_KLDivLoss
+from helios.modules.losses import KLDivLoss, NLL, DPM_KLDLoss
 from helios.utils.general_utils import AttrDict
 from helios.modules.variational_inference import Gaussian, MultivariateGaussian, get_fixed_prior
 from helios.components.checkpointer import load_by_key, freeze_modules
 
-from bnpy.data.XData import XData
+from bnpy.data.XData import XData # pip install bnpy
 
 
-class SPiRL_DPMM_Mdl(SkillPriorMdl):
-    """SPiRL model with closed-loop low-level skill decoder.
-        Fit Knowledge prior by Bayesian Non-parametrics
+class HELIOS_Prior_Mdl(SkillPriorMdl):
+    """HELIOS model with closed-loop low-level skill decoder.
+        Basic implementation based on: https://github.com/Ghiara/DIVA/blob/master/diva.py
     """
 
     def __init__(self, params, logger=None):
@@ -36,17 +36,29 @@ class SPiRL_DPMM_Mdl(SkillPriorMdl):
         self.num_clusters = 0
         self.cluster_logging = []
         self.dpmm_param = dict(
+            # sF=1.0 # debug1
+            # sF=0.1, # debug2
+            # sF=0.001, # debug3
+            
+            ## -- mnist default setup --
+            # b_minNumAtomsForNewComp=16.0,
+            # b_minNumAtomsForTargetComp=16.0,
+            # b_minNumAtomsForRetainComp=16.0,
+            ## debug 4
+            # b_minNumAtomsForNewComp=2000.0,
+            # b_minNumAtomsForTargetComp=2000.0,
+            # b_minNumAtomsForRetainComp=2000.0,
+            ## debug 5
+            # b_minNumAtomsForNewComp=500.0,
+            # b_minNumAtomsForTargetComp=600.0,
+            # b_minNumAtomsForRetainComp=600.0,
+            
             sF=0.01,
             b_minNumAtomsForNewComp=800.0,
             b_minNumAtomsForTargetComp=850.0,
             b_minNumAtomsForRetainComp=850.0,
+
         ) 
-        # self.dpmm_param = dict(
-        #     sF=0.1,
-        #     b_minNumAtomsForNewComp=800.0,
-        #     b_minNumAtomsForTargetComp=960.0,
-        #     b_minNumAtomsForRetainComp=960.0,
-        # ) 
 
     def build_network(self, inference_block_type:str='lstm'):
         assert not self._hp.use_convs  # currently only supports non-image inputs
@@ -73,6 +85,7 @@ class SPiRL_DPMM_Mdl(SkillPriorMdl):
                 BaseProcessingLSTM(self._hp, in_dim=input_size, out_dim=self._hp.nz_enc),
                 torch.nn.Linear(self._hp.nz_enc, self._hp.nz_vae * 2)
             )
+        # -- implementation of gru network --
         elif block_type in ['gru']:
             return torch.nn.Sequential(
             BaseProcessingGRU(self._hp, in_dim=input_size, out_dim=self._hp.nz_enc),  # GRU-based layer
@@ -160,13 +173,12 @@ class SPiRL_DPMM_Mdl(SkillPriorMdl):
         if self.bnp_model is None:
             losses.kl_loss = KLDivLoss(self.beta)(model_output.q, model_output.p)
         else: 
-            # DPMM generated components
             z = model_output.z_q.detach()          
             comp_mu = self.comp_mu
             comp_var = self.comp_var
-            prob_comps, hard_assignment = self.cluster_assignments(z) # prob_comps --> resp, comps --> Z[n]
+            prob_comps, dpm_hard_assignment = self.cluster_assignments(z) # prob_comps --> resp, comps --> Z[n]
             _, self.num_clusters = prob_comps.shape
-            losses.kl_loss = DPMM_KLDivLoss(self.beta)(model_output.q.mu, model_output.q.log_sigma, prob_comps, comp_mu, comp_var)
+            losses.kl_loss = DPM_KLDLoss(self.beta)(model_output.q.mu, model_output.q.log_sigma, prob_comps, comp_mu, comp_var)
 
         # learned skill prior net loss
         losses.q_hat_loss = self._compute_learned_prior_loss(model_output)
@@ -181,48 +193,49 @@ class SPiRL_DPMM_Mdl(SkillPriorMdl):
     
     def fit_dpmm(self, z):
         """
-        Fits DPMM model at the end of the epoch.
-        :arg z: Collected during the training Latent Skill Embedding samples
+        Update DPM model at the end of the epoch. Implementation inherits from https://github.com/Ghiara/DIVA/blob/master/diva.py
+        :arg z: latent embeddings
         """
         z = XData(z.detach().cpu().numpy())
 
-        if self.bnp_model is None:
-          # Epoch 0 - Initialization
+        
+        if not self.bnp_model:
           print("-- Initialing DPMM model --")
-          self.bnp_model, self.bnp_info_dict = bnpy.run(
-                z, 'DPMixtureModel', 'DiagGauss', 'memoVB', 
-                output_path = self.bnp_root+str(next(self.bnp_iterator)),
-                initname='randexamples',
-                K=1, gamma0 = 5.0, sF=0.1, 
-                ECovMat='eye',
-                b_Kfresh=5, b_startLap=0, m_startLap=2,
-                # moves='birth,merge,shuffle', 
-                moves='birth,delete,merge,shuffle', 
-                nLap=2,
-                b_minNumAtomsForNewComp=self.dpmm_param['b_minNumAtomsForNewComp'],
-                b_minNumAtomsForTargetComp=self.dpmm_param['b_minNumAtomsForTargetComp'],
-                b_minNumAtomsForRetainComp=self.dpmm_param['b_minNumAtomsForRetainComp'],
-                )
+          self.bnp_model, self.bnp_info_dict = bnpy.run(z, 'DPMixtureModel', 'DiagGauss', 'memoVB', 
+                                                        output_path = self.bnp_root+str(next(self.bnp_iterator)),
+                                                        initname='randexamples',
+                                                        K=1, 
+                                                        gamma0 = 5.0, 
+                                                        sF=0.1, 
+                                                        ECovMat='eye',
+                                                        b_Kfresh=5, b_startLap=0, m_startLap=2,
+                                                        # moves='birth,merge,shuffle', 
+                                                        moves='birth,delete,merge,shuffle', 
+                                                        nLap=2,
+                                                        b_minNumAtomsForNewComp=self.dpmm_param['b_minNumAtomsForNewComp'],
+                                                        b_minNumAtomsForTargetComp=self.dpmm_param['b_minNumAtomsForTargetComp'],
+                                                        b_minNumAtomsForRetainComp=self.dpmm_param['b_minNumAtomsForRetainComp'],
+                                                        )
+        
         else:
           print("-- Fitting DPMM model --") 
-          self.bnp_model, self.bnp_info_dict = bnpy.run(
-                z, 'DPMixtureModel', 'DiagGauss', 'memoVB', 
-                output_path = self.bnp_root+str(next(self.bnp_iterator)),
-                initname=self.bnp_info_dict['task_output_path'],
-                K=self.bnp_info_dict['K_history'][-1],
-                gamma0=5.0,
-                sF=self.dpmm_param['sF'],
-                ECovMat='eye',
-                b_Kfresh=5, b_startLap=1, m_startLap=2,
-                # moves='birth,merge,shuffle', 
-                moves='birth,delete,merge,shuffle', 
-                nLap=2,
-                b_minNumAtomsForNewComp=self.dpmm_param['b_minNumAtomsForNewComp'],
-                b_minNumAtomsForTargetComp=self.dpmm_param['b_minNumAtomsForTargetComp'],
-                b_minNumAtomsForRetainComp=self.dpmm_param['b_minNumAtomsForRetainComp'],
-                )
+          self.bnp_model, self.bnp_info_dict = bnpy.run(z, 'DPMixtureModel', 'DiagGauss', 'memoVB', 
+                                                        output_path = self.bnp_root+str(next(self.bnp_iterator)),
+                                                        initname=self.bnp_info_dict['task_output_path'],
+                                                        K=self.bnp_info_dict['K_history'][-1], # inherits from last update
+                                                        gamma0=5.0,
+                                                        sF=self.dpmm_param['sF'],
+                                                        ECovMat='eye',
+                                                        b_Kfresh=5, b_startLap=1, m_startLap=2,
+                                                        # moves='birth,merge,shuffle', 
+                                                        moves='birth,delete,merge,shuffle', 
+                                                        nLap=2,
+                                                        b_minNumAtomsForNewComp=self.dpmm_param['b_minNumAtomsForNewComp'],
+                                                        b_minNumAtomsForTargetComp=self.dpmm_param['b_minNumAtomsForTargetComp'],
+                                                        b_minNumAtomsForRetainComp=self.dpmm_param['b_minNumAtomsForRetainComp'],
+                                                        )
         self.calc_cluster_component_params()
-        print("-- Stop fitting process --")
+
     
     def cluster_assignments(self, z):
         z = XData(z.detach().cpu().numpy())

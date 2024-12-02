@@ -1,6 +1,26 @@
 # Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning
 
-An official implementation of robotic long-horizon manipulation refincement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
+
+#### [[Project Website]](https://clvrai.github.io/spirl/) [[Paper]](https://arxiv.org/abs/2010.11944)
+
+[Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, 
+[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>1,2</sup>, 
+[Kejia Chen](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
+[Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
+[Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
+[Fan Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
+[Achim Lilienthal](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
+[Kai Huang](https://cse.sysu.edu.cn/content/2466)<sup>3</sup>,
+[Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
+
+<sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich
+
+<sup>2</sup>The School of Intelligence Science and Technology, Nanjing University
+
+<sup>3</sup>The School of Computer Science and Engineering, Sun Yat-sen University
+
+
+The official implementation of robotic long-horizon manipulation refincement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
 
 <p align="center">
 <img src="docs/resources/helios_framework.png" width="800"></p></img>
@@ -12,9 +32,8 @@ An official implementation of robotic long-horizon manipulation refincement lear
 ## Requirements
 
 - python 3.7+
-- mujoco 2.0+
+- mujoco 2.0 (for RL experiments)
 - Ubuntu 20.04 LTS or 22.04 LTS
-- For python requirements see [`requirements.txt`](requirements.txt)
 
 ## Installation Instructions
 
@@ -55,45 +74,45 @@ This fork includes the new key 'completed_tasks' in the Kitchen environment, whi
 create an account and then change the WandB entity and project name at the top of [train.py](helios/train.py) and
 [rl/train.py](helios/rl/train.py) to match your account.
 
-## Main Commands
+## CLI for Training
 
-### Train DPM based Skill Prior
+### 1. Train DPM based Skill Prior
 
 To train a **DPM based Generalized Skill Prior** model, run:
 ```bash
-python3 helios/train.py --path=helios/configs/skill_prior_learning/kitchen/spirl_DPMM_h_cl --val_data_size=160 --gpu=0
+python3 helios/train.py --path=helios/configs/skill_prior_learning/kitchen/helios_h_cl --val_data_size=160 --gpu=0
 
 ```
 
-### Train HELIOS for downstream Long-Horizon RL manipulation (e.g., Franka kitchen)
+### 2. Train HELIOS for downstream Long-Horizon RL manipulation (e.g., Franka kitchen)
 
 After DPM based Skill Prior model is trained, to train **HELIOS** agent on the franka kitchen long-horizon tasks, run (change the index number of your available GPU device accordingly):
 ```bash
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=0 --prefix=helios_kitchen_seed0 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=0 --prefix=helios_kitchen_seed0 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=1 --prefix=helios_kitchen_seed1 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=1 --prefix=helios_kitchen_seed1 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=2 --prefix=helios_kitchen_seed2 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=2 --prefix=helios_kitchen_seed2 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=3 --prefix=helios_kitchen_seed3 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=3 --prefix=helios_kitchen_seed3 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=4 --prefix=helios_kitchen_seed4 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=4 --prefix=helios_kitchen_seed4 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=5 --prefix=helios_kitchen_seed5 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=5 --prefix=helios_kitchen_seed5 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=6 --prefix=helios_kitchen_seed6 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=6 --prefix=helios_kitchen_seed6 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=7 --prefix=helios_kitchen_seed7 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=7 --prefix=helios_kitchen_seed7 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=8 --prefix=helios_kitchen_seed8 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=8 --prefix=helios_kitchen_seed8 --gpu=0
 
-python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/spirl_cl_DPMM --seed=9 --prefix=helios_kitchen_seed9 --gpu=0
+python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=9 --prefix=helios_kitchen_seed9 --gpu=0
 
 ```
 
 
 
-### Train Baseline Models
+### 3. Train Baseline Models
 
 - Run **Vanilla SAC**:
 ```bash
@@ -259,7 +278,7 @@ The new model needs to define the architecture in the constructor (e.g. by overw
 implement the forward pass and loss functions,
 as well as model-specific logging functionality if desired. For an example, see [```helios/models/skill_prior_mdl.py```](helios/models/skill_prior_mdl.py).
 
-Note, that most basic architecture components (MLPs, CNNs, LSTMs, Flow models etc) are defined in `helios/modules` and can be 
+Note, that most basic architecture components (MLPs, CNNs, LSTMs, GRUs, Flow models etc) are defined in `helios/modules` and can be 
 conveniently reused for easy architecture definitions. Below are some links to the most important classes.
 
 |Component        | File         | Description |

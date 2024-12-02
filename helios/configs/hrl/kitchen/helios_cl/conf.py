@@ -1,29 +1,19 @@
 from helios.configs.hrl.kitchen.spirl.conf import *
-from helios.models.CL_SPIRL_DPMM_mdl import SPiRL_DPMM_Mdl
+from helios.models.closed_loop_helios_mdl import HELIOS_Prior_Mdl
 from helios.rl.policies.cl_model_policies import ClModelPolicy
 ll_model_params.cond_decode = True
 
-########################### Latest version #########################
-#
-#   This version was created on 31.07
-#
-#   Differencies:
-#   - DPMM
-#   - Prior model Checkpoint - "skill_prior_learning/kitchen/spirl_DPMM_h_cl"
-#   - Trained on mixed kitchen dataset, performs on mixed dataset
-
-
 # create LL closed-loop policy
 ll_policy_params = AttrDict(
-    policy_model=SPiRL_DPMM_Mdl, 
+    policy_model=HELIOS_Prior_Mdl, 
     policy_model_params=ll_model_params,
     policy_model_checkpoint=os.path.join(os.environ["EXP_DIR"],
-                                        #  "skill_prior_learning/kitchen/spirl_DPMM_h_cl"
+                                         "skill_prior_learning/kitchen/helios_h_cl"
                                         # "test1/skill_prior_learning/kitchen/spirl_DPMM_h_cl"
                                         #  "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru_debug2"
                                         # "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru2sf001"
                                         # "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru2layers"
-                                        "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru1lsf001"
+                                        # "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru1lsf001"
                                          ), #TODO: change pretrained weights dir according to your 
 )
 ll_policy_params.update(ll_model_params)
@@ -32,7 +22,7 @@ ll_policy_params.update(ll_model_params)
 ll_agent_config = AttrDict(
     policy=ClModelPolicy,
     policy_params=ll_policy_params,
-    critic=MLPCritic,                   # LL critic is not used since we are not finetuning LL
+    critic=MLPCritic,               
     critic_params=hl_critic_params
 )
 

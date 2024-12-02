@@ -11,7 +11,7 @@ from helios.rl.components.replay_buffer import UniformReplayBuffer
 from helios.rl.agents.ac_agent import SACAgent
 from helios.rl.agents.skill_space_agent import SkillSpaceAgent
 from helios.models.skill_prior_mdl import SkillPriorMdl
-from helios.models.CL_SPIRL_DPMM_mdl import SPiRL_DPMM_Mdl
+from helios.models.closed_loop_helios_mdl import SPiRL_DPMM_Mdl
 from helios.configs.default_data_configs.kitchen import data_spec
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -69,11 +69,7 @@ ll_agent_config.update(AttrDict(
     model=SPiRL_DPMM_Mdl,
     model_params=ll_model_params,
     model_checkpoint=os.path.join(os.environ["EXP_DIR"],
-                                #   "test1/skill_prior_learning/kitchen/spirl_DPMM_h_cl"
-                                #   "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru_debug2"
-                                # "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru2sf001"
-                                # "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru2layers"
-                                "skill_prior_learning/kitchen/spirl_DPMM_h_cl/gru1lsf001"
+                                  "skill_prior_learning/kitchen/helios_h_cl"
                                   ), # TODO: change ckpt path
 ))
 

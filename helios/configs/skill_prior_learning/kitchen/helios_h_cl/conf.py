@@ -1,29 +1,16 @@
 import os
 
-from helios.models.CL_SPIRL_DPMM_mdl import SPiRL_DPMM_Mdl
+from helios.models.closed_loop_helios_mdl import HELIOS_Prior_Mdl
 from helios.components.logger import Logger
 from helios.utils.general_utils import AttrDict
 from helios.configs.default_data_configs.kitchen import data_spec
 from helios.components.evaluator import TopOfNSequenceEvaluator
 
-
-########################### Experiment version #########################
-#
-#   This version was created on 16.07
-#
-#   Differencies from original:
-#   - DPMM
-#   - Correct evaluation
-#   - Adaptive DPMM fitting
-#   - b_minNumAtomsForNewComp=800.0,
-#   - b_minNumAtomsForTargetComp=960.0,
-#   - b_minNumAtomsForRetainComp=960.0,
-
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 
 configuration = {
-    'model': SPiRL_DPMM_Mdl, 
+    'model': HELIOS_Prior_Mdl, 
     'logger': Logger,
     'data_dir': '.',
     'epoch_cycles_train': 50,

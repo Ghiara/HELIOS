@@ -35,35 +35,20 @@ class Loss():
     
     def compute(self, estimates, targets):
         raise NotImplementedError
+
+
+#########################
+####### HELIOS ##########
+#########################
+class DPM_KLDLoss(Loss):
+    '''KLD loss for DPM model
     
-
-class L2Loss(Loss):
-    def compute(self, estimates, targets, activation_function=None):
-        # assert estimates.shape == targets.shape, "Input {} and targets {} for L2 loss need to have identical shape!"\
-        #     .format(estimates.shape, targets.shape)
-        if activation_function is not None:
-            estimates = activation_function(estimates)
-        if not isinstance(targets, torch.Tensor):
-            targets = torch.tensor(targets, device=estimates.device, dtype=estimates.dtype)
-        l2_loss = torch.nn.MSELoss(reduction='none')(estimates, targets)
-        return l2_loss
-
-
-class KLDivLoss(Loss):
-    def compute(self, estimates, targets):
-        if not isinstance(estimates, Gaussian): estimates = Gaussian(estimates)
-        if not isinstance(targets, Gaussian): targets = Gaussian(targets)
-        kl_divergence = estimates.kl_divergence(targets) # self=q and other=p and we compute KL(q, p)
-        return kl_divergence
-    
-class DPMM_KLDivLoss(Loss):
-    # DPMM KL Divergence wieghted loss 
+    '''
     def compute(self, mu, log_sigma, prob_comps, comp_mu, comp_var):
         """
-        :arg inputs: mu, log_sigma of encoder, probabilistic assignments, current DPMM parameters mu and var
+        :arg inputs: mu, log_sigma of encoder, assignments, DPMM parameters mu and var
+        :arg outputs: kl_divergence
         """
-        # We consider only probabilistic assignments 
-        # Get a distribution of the latent variables 
         var = torch.exp(2*log_sigma)
         # batch_shape [batch_size], event_shape [latent_dim]
         
@@ -85,6 +70,34 @@ class DPMM_KLDivLoss(Loss):
             kld += torch.from_numpy(prob_k).to(mu.device) * kld_k
         # Weighted average
         kl_divergence = torch.mean(kld)
+        return kl_divergence
+
+
+
+
+
+
+
+
+    
+
+class L2Loss(Loss):
+    def compute(self, estimates, targets, activation_function=None):
+        # assert estimates.shape == targets.shape, "Input {} and targets {} for L2 loss need to have identical shape!"\
+        #     .format(estimates.shape, targets.shape)
+        if activation_function is not None:
+            estimates = activation_function(estimates)
+        if not isinstance(targets, torch.Tensor):
+            targets = torch.tensor(targets, device=estimates.device, dtype=estimates.dtype)
+        l2_loss = torch.nn.MSELoss(reduction='none')(estimates, targets)
+        return l2_loss
+
+
+class KLDivLoss(Loss):
+    def compute(self, estimates, targets):
+        if not isinstance(estimates, Gaussian): estimates = Gaussian(estimates)
+        if not isinstance(targets, Gaussian): targets = Gaussian(targets)
+        kl_divergence = estimates.kl_divergence(targets) # self=q and other=p and we compute KL(q, p)
         return kl_divergence
 
 
