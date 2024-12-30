@@ -1,7 +1,7 @@
 # Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning
 
 
-#### [[Project Website]](https://ghiara.github.io/helios/) [[Paper]](docs/static/helios_paper.pdf)
+#### [[Project Website]](https://ghiara.github.io/HELIOS/) [[Paper]](docs/static/helios_paper.pdf)
 
 [Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, 
 [Xiangtong Yao](https://www.ce.cit.tum.de/air/people/xiangtong-yao/)<sup>1</sup>, 
