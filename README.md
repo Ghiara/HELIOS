@@ -1,29 +1,26 @@
 # Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning
 
 
-#### [[Project Website]](https://clvrai.github.io/spirl/) [[Paper]](https://arxiv.org/abs/2010.11944)
+#### [[Project Website]](https://ghiara.github.io/helios/) [[Paper]](docs/static/helios_paper.pdf)
 
 [Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, 
-[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>1,2</sup>, 
+[Xiangtong Yao](https://www.ce.cit.tum.de/air/people/xiangtong-yao/)<sup>1</sup>, 
 [Kejia Chen](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
 [Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
 [Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Fan Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
 [Achim Lilienthal](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Kai Huang](https://cse.sysu.edu.cn/content/2466)<sup>3</sup>,
+[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>1,2</sup>, 
 [Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
 
-<sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich
+<sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich, Germany
 
-<sup>2</sup>The School of Intelligence Science and Technology, Nanjing University
-
-<sup>3</sup>The School of Computer Science and Engineering, Sun Yat-sen University
+<sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China
 
 
 The official implementation of robotic long-horizon manipulation refincement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
 
 <p align="center">
-<img src="docs/resources/helios_framework.png" width="800"></p></img>
+<img src="docs/static/images/helios_framework.png" width="800"></p></img>
 
 
 
