@@ -1,504 +1,279 @@
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-
-<!-- ======================================================================= -->
-<script src="http://www.google.com/jsapi" type="text/javascript"></script>
-<script type="text/javascript">google.load("jquery", "1.3.2");</script>
-<style type="text/css">
-  body {
-    font-family: "Titillium Web","HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight:300;
-    font-size:18px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-  }
-
-  h1 {
-    font-weight:300;
-  }
-
-  div {
-    max-width: 95%;
-    margin:auto;
-    padding: 10px;
-  }
-
-  .table-like {
-    display: flex;
-    flex-wrap: wrap;
-    flex-flow: row wrap;
-    justify-content: center;
-  }
-
-  .disclaimerbox {
-    background-color: #eee;
-    border: 1px solid #eeeeee;
-    border-radius: 10px ;
-    -moz-border-radius: 10px ;
-    -webkit-border-radius: 10px ;
-    padding: 20px;
-  }
-
-  video.header-vid {
-    height: 140px;
-    border: 1px solid black;
-    border-radius: 10px ;
-    -moz-border-radius: 10px ;
-    -webkit-border-radius: 10px ;
-  }
-
-  img {
-    padding: 0;
-    display: block;
-    margin: 0 auto;
-    max-height: 100%;
-    max-width: 100%;
-  }
-
-  iframe {
-    max-width: 100%;
-  }
-
-  img.header-img {
-    height: 140px;
-    border: 1px solid black;
-    border-radius: 10px ;
-    -moz-border-radius: 10px ;
-    -webkit-border-radius: 10px ;
-  }
-
-  img.rounded {
-    border: 1px solid #eeeeee;
-    border-radius: 10px ;
-    -moz-border-radius: 10px ;
-    -webkit-border-radius: 10px ;
-  }
-
-  pre {
-    background: #f4f4f4;
-    border: 1px solid #ddd;
-    color: #666;
-    page-break-inside: avoid;
-    font-family: monospace;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 1.6em;
-    max-width: 100%;
-    overflow: auto;
-    padding: 10px;
-    display: block;
-    word-wrap: break-word;
-}
-
-  a:link,a:visited
-  {
-    color: #1367a7;
-    text-decoration: none;
-  }
-  a:hover {
-    color: #208799;
-  }
-
-  td.dl-link {
-    height: 160px;
-    text-align: center;
-    font-size: 22px;
-  }
-
-  .layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
-    box-shadow:
-            0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
-            5px 5px 0 0px #fff, /* The second layer */
-            5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
-            10px 10px 0 0px #fff, /* The third layer */
-            10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
-            15px 15px 0 0px #fff, /* The fourth layer */
-            15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
-            20px 20px 0 0px #fff, /* The fifth layer */
-            20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
-            25px 25px 0 0px #fff, /* The fifth layer */
-            25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
-    margin-left: 10px;
-    margin-right: 45px;
-  }
-
-
-  .layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
-    box-shadow:
-            0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
-            5px 5px 0 0px #fff, /* The second layer */
-            5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
-            10px 10px 0 0px #fff, /* The third layer */
-            10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
-    margin-top: 5px;
-    margin-left: 10px;
-    margin-right: 30px;
-    margin-bottom: 5px;
-  }
-
-  .vert-cent {
-    position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-  }
-
-  hr
-  {
-    border: 0;
-    height: 1px;
-    max-width: 1100px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-  }
-
-  #authors td {
-    padding-bottom:5px;
-    padding-top:30px;
-  }
-</style>
-<!-- ======================================================================= -->
-
-<!-- Start : Google Analytics Code -->
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64069893-4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-64069893-4');
-</script> -->
-<!-- End : Google Analytics Code -->
-
-<script type="text/javascript" src="resources/hidebib.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
 <head>
-<div max-width=100%>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <link rel="icon" type="image/png" href="resources/clvr_icon.png">
-  <title>Accelerating Reinforcement Learning with Learned Skill Priors</title>
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="canonical" href="https://kpertsch.github.io/" />
-  <meta name="referrer" content="no-referrer-when-downgrade" />
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
 
-  <meta property="og:site_name" content="Skill Prior Reinforcement Learning" />
-  <meta property="og:type" content="video.other" />
-  <meta property="og:title" content="Accelerating Reinforcement Learning with Learned Skill Priors" />
-  <meta property="og:description" content="Karl Pertsch, Youngwoon Lee, Joseph J. Lim. Accelerating Reinforcement Learning with Learned Skill Priors. 2020." />
-  <meta property="og:url" content="https://kpertsch.github.io/" />
-  <meta property="og:image" content="https://github.com/clvrai/spirl/docs/resources/spirl_teaser.png" />  <!-- UPDATE -->
-  <!--<meta property="og:video" content="https://www.youtube.com/v/axXx-x86IeY" />   &lt;!&ndash; UPDATE &ndash;&gt;-->
 
-  <meta property="article:publisher" content="https://kpertsch.github.io/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Accelerating Reinforcement Learning with Learned Skill Priors" />
-  <meta name="twitter:description" content="Karl Pertsch, Youngwoon Lee, Joseph J. Lim. Accelerating Reinforcement Learning with Learned Skill Priors. 2020." />
-  <meta name="twitter:url" content="https://kpertsch.github.io/" />
-  <meta name="twitter:image" content="https://github.com/clvrai/spirl/docs/resources/spirl_teaser.png" />   <!-- UPDATE -->
-  <meta property="og:image:width" content="3902" />
-  <meta property="og:image:height" content="1337" />
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <meta name="twitter:card" content="player" />
-  <meta name="twitter:image" content="https://github.com/clvrai/spirl/docs/resources/spirl_teaser.png" />   <!-- UPDATE -->
-  <!--<meta name="twitter:player" content="https://www.youtube.com/embed/axXx-x86IeY?rel=0&showinfo=0" />   &lt;!&ndash; UPDATE &ndash;&gt;-->
-  <meta name="twitter:player:width" content="640" />
-  <meta name="twitter:player:height" content="360" />
+
+  <title>Pretrained Bayesian Non-parametric Knowledge Prior <br/>in Robotic Long-Horizon Reinforcement Learning</title>
+  <link rel="icon" type="image/x-icon" href="static/images/tum_icon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
 </head>
-
 <body>
 
-      <br>
-      <center><span style="font-size:44px;font-weight:bold;">Accelerating Reinforcement Learning <br/> with Learned Skill Priors</span></center><br/>
-      <div class="table-like" style="justify-content:space-evenly;max-width:600px;margin:auto;">
-          <div><center><span style="font-size:30px"><a href="https://kpertsch.github.io/" target="_blank">Karl Pertsch</a></span></center>
-          <!-- <center><span style="font-size:18px">USC</span></center> -->
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a target="_blank">Yuan Meng</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Xiangtong Yao</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Kejia Chen</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Yansong Wu</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Liding Zhang</a><sup>1</sup>,</span>
+              <br><span class="author-block">
+                <a target="_blank">Achim Lilienthal</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Zhenshan Bing</a><sup>1,2,&dagger;</sup>,</span>
+              <span class="author-block">
+                <a target="_blank">Anois Knoll</a><sup>1</sup>,</span>
+                    
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">
+                      <small><sup>1</sup>School of Computation, Information and Technology, Technical University of Munich, Germany</small>
+                      <br><small><sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China</small>
+                      <br><small><sup>&dagger;</sup>Corresponding author: zhenshan.bing@tum.de</small>
+                    </span>
+                    
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="static/helios_paper.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+                    <!-- Supplementary PDF link -->
+                    
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/Ghiara/HELIOS" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                  <!-- Github link -->
+
+
+                <!-- ArXiv abstract Link -->
+                <!-- <span class="link-block">
+                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+            </div>
           </div>
-
-          <div><center><span style="font-size:30px"><a href="https://youngwoon.github.io/" target="_blank">Youngwoon Lee</a></span></center>
-          <!-- <center><span style="font-size:18px">UPenn</span></center>-->          
-          </div>
-
-          <div><center><span style="font-size:30px"><a href="https://www.clvrai.com/" target="_blank">Joseph J. Lim</a></span></center>
-          <!-- <center><span style="font-size:18px">UC Berkeley</span></center> -->
-          </div>
+        </div>
       </div>
-      <table align=center width=30% style="padding-top:0px;padding-bottom:0px">
-          <tr>
-            <td align=center><center><span style="font-size:25px"><a href="https://www.clvrai.com/" target="_blank">CLVR Lab, University of Southern California</a></span></center></td>
-          <tr/>
-      </table>
-      <center><span style="font-size:20px;">Conference on Robot Learning (CoRL), 2020</span></center>
+    </div>
+  </div>
+</section>
 
-      <div class="table-like" style="justify-content:space-evenly;max-width:500px;margin:auto;padding:5px">
-        <div><center><span style="font-size:28px"><a href="https://arxiv.org/abs/2010.11944">[Paper]</a></span></center></div>  <!-- UPDATE -->
-        <div><center><span style="font-size:28px"><a href='https://github.com/clvrai/spirl'>[GitHub Code]</a></span></center> </div>   <!-- UPDATE -->
-        <!-- <div><center><span style="font-size:28px"><a href='https://youtu.be/w32twGTWvDU'>[Talk (5 min)]</a></span></center> </div> -->
+
+<!-- Teaser video 1-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <!-- <source src="static/videos/banner_video.mp4" type="video/mp4"> -->
+        <source src="static/videos/helios_video.mp4" type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-justified">
+        <b>Movie. 1:</b>
+        <b>Demonstration of HELIOS framework in performing long-horizon manipulation tasks</b>. 
+        By utilizing the Bayesian non-parametric skill prior space, our framework accurately captures the action patterns across different skills, reflecting their inherent non-parametric characteristics. Here, we showcase videos highlighting the framework's performance on both the training set and the test set, including three additional unseen tasks with unique orderings. 
+        The agent dynamically adapts to these new long-horizon tasks, effectively applying the prior knowledge acquired during training.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video 1-->
+
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Reinforcement learning (RL) methods typically learn new tasks from scratch, often disregarding
+            prior knowledge that could accelerate the learning process.
+            While some methods incorporate previously learned skills,
+            they usually rely on a fixed structure, such as a single
+            Gaussian distribution, to define skill priors. This rigid
+            assumption can restrict the diversity and flexibility of skills,
+            particularly in complex, long-horizon tasks. In this work,
+            we introduce a method that models potential primitive
+            skill motions as having non-parametric properties with
+            an unknown number of underlying features. We utilize
+            a Bayesian non-parametric model, specifically Dirichlet
+            Process Mixtures, enhanced with birth and merge heuristics, to pre-train a skill prior that effectively captures the
+            diverse nature of skills. Additionally, the learned skills
+            are explicitly trackable within the prior space, enhancing
+            interpretability and control. By integrating this flexible
+            skill prior into an RL framework, our approach surpasses
+            existing methods in long-horizon manipulation tasks, enabling more efficient skill transfer and task success in
+            complex environments. Our findings show that a richer,
+            non-parametric representation of skill priors significantly
+            improves both the learning and execution of challenging
+            robotic tasks.
+          </p>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
 
-      <!-- ### VIDEO ### -->
-      <!-- <center>
-      <iframe width="768" height="432" max-width="100%" src="https://www.youtube.com/embed/axXx-x86IeY?autoplay=1&loop=1&playlist=axXx-x86IeY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center> -->
-      <!-- <iframe width="768" height="432" max-width="100%" src="resources/video.m4v" frameborder="0" allowfullscreen></iframe></center> -->
-      <!-- <br> -->
+<section class="section">
+  <div class="container is-max-widescreen" bis_skin_checked="1">
 
-      <br/>
-          <center><a href="resources/spirl_teaser.png"><img src = "resources/spirl_teaser.png" width="1000px"></img></a><br></center>
-      <br/>
-
-      <div style="width:800px; margin:0 auto;padding:5px" align="justify">
-        Intelligent agents rely heavily on prior experience when learning a new task, yet most modern reinforcement learning (RL) approaches learn every task from scratch. One approach for leveraging prior knowledge is to transfer skills learned on prior tasks to the new task. However, as the amount of prior experience increases, the number of transferable skills grows too, making it challenging to explore the full set of available skills during downstream learning. Yet, intuitively, not all skills should be explored with equal probability; instead information e.g. about the current environment state can hint which skills are promising to explore. In this work, we propose to implement this intuition by learning a prior over skills. We propose a deep latent variable model that jointly learns an embedding space of skills and the skill prior from offline agent experience. We then extend common maximum-entropy RL approaches to incorporate skill priors to guide downstream learning. We validate our approach, SPiRL (Skill-Prior RL), on complex navigation and robotic manipulation tasks and show that learned skill priors are essential for effective transfer of skills from rich datasets.
-      </div>
-      <br><hr>
+    <div class="rows" bis_skin_checked="1">
 
 
-      <!-- ################### OVERVIEW #################### -->
+    <!-- Animation. -->
+    <div class="rows is-centered " bis_skin_checked="1">
+      <div class="row is-full-width" bis_skin_checked="1">
+        <h2 class="title is-3"><span class="dcapravens">HELIOS</span></h2>
 
-      <table align=center width=950px>
-        <center><h1>Overview</h1></center>
-        <div style="width:800px; margin:0 auto;padding:5px" align="justify">
-        Our goal is to leverage large, unstructured datasets of agent experience for accelerating downstream reinforcement learning. Our approach, SPiRL (Skill-Prior RL), tackles this problem in two stages: first we learn a continuous representation of skills and a prior over these skills, then we leverage them for guiding reinforcement learning on a new downstream task.
-        </div><br>
-        <tr>
-        <td style="width:40%">
-          <!-- <p style="margin-top:4px;"></p> -->
-          <a href="resources/skill_model.png"><img style="width:450px; float:left" src="resources/skill_model.png"/></a>
-        </td>
-        <td style="width:3%"></td>
-        <td style="width:57%">
-          <h2>Skill Prior Learning</h2>
-          <span style="float:right;margin:auto" align="justify">
-          We propose a model for jointly learning <b>(1) a continuous embedding space of skills</b> and <b>(2) a prior over skills</b> from an offline dataset of unstructured agent experience. We define skills as action trajectories of fixed length from the training sequences and train a generative model over randomly cropped action trajectories by maximizing the Evidence Lower Bound (ELBO). Additionally, we train a skill prior network to approximate the skill posterior distribution over the learned skill embedding space given the current state.
-          </span>
-        </td>
-        </tr>
-        </table><br>
-
-      <table align=center width=950px>
-        <tr>
-        <td style="width:50%">
-          <h2>Skill Prior Guided Reinforcement Learning</h2>
-          <span style="float:right;margin:auto;" align="justify">
-          Once the skill embedding space and skill prior are learned, we can leverage them for efficient learning of new downstream tasks. We propose a hierarchical policy architecture in which a high-level policy outputs skill embeddings which get translated into executable actions using the pre-trained decoder model. To guide exploration during downstream learning we regularize the policy's output distribution towards the learned skill prior.
-          </span>
-        </td>
-        <td style="width:3%"></td>
-        <td style="width:47%">
-          <!-- <p style="margin-top:4px;"></p> -->
-          <a href="resources/skill_prior_rl.png"><img style="width:500px; float:left" src="resources/skill_prior_rl.png"/></a>
-        </td>
-        </tr>
-      </table>
-    <br><hr>
-
-
-    <!-- ################### ENVIRONMENTS #################### -->
-
-    <table align=center width=1000px>
-        <center><h1>Environments</h1></center>
-        <tr>
-        <td style="width:1%">
-          <center><div style="font-size:25px; transform:rotate(270deg)">
-          Training Tasks
-          </div></center>
-        </td>
-
-        <!-- ################### Maze #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Maze</h2></center>
-          <table align=center width=100%>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/maze_demo_0.mp4"><video src = "resources/env_videos/maze_demo_0.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/maze_demo_1.mp4"><video src = "resources/env_videos/maze_demo_1.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/maze_demo_2.mp4"><video src = "resources/env_videos/maze_demo_2.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/maze_demo_3.mp4"><video src = "resources/env_videos/maze_demo_3.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-          </table><br>
-        </td>
-
-        <!-- ################### Block Stacking #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Block Stacking</h2></center>
-          <table align=center width=100%>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/blocks_demo_0.mp4"><video src = "resources/env_videos/blocks_demo_0.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/blocks_demo_1.mp4"><video src = "resources/env_videos/blocks_demo_1.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/blocks_demo_2.mp4"><video src = "resources/env_videos/blocks_demo_2.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/blocks_demo_3.mp4"><video src = "resources/env_videos/blocks_demo_3.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-          </table><br>
-        </td>
-
-        <!-- ################### Kitchen #################### -->
-        <td style="width:2%"></td>
-        <td style="width:30%">
-          <center><h2>Kitchen</h2></center>
-          <table align=center width=100%>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/kitchen_demo_0.mp4"><video src = "resources/env_videos/kitchen_demo_0.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/kitchen_demo_1.mp4"><video src = "resources/env_videos/kitchen_demo_1.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-            <tr>
-              <td style="width:50%">
-                <a href="resources/env_videos/kitchen_demo_2.mp4"><video src = "resources/env_videos/kitchen_demo_2.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-              <td style="width:50%">
-                <a href="resources/env_videos/kitchen_demo_3.mp4"><video src = "resources/env_videos/kitchen_demo_3.mp4" width="100%" autoplay muted loop></video></a>
-              </td>
-            </tr>
-          </table><br>
-        </td>
-        </tr>
-
-        <tr>
-          <td style="width:1%">
-            <center><div style="font-size:25px; transform:rotate(270deg)">
-            Target Tasks
-            </div></center>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="resources/env_videos/maze_test.mp4"><video src = "resources/env_videos/maze_test.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="resources/env_videos/blocks_test.mp4"><video src = "resources/env_videos/blocks_test.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-          <td style="width:2%"></td>
-          <td style="width:30%">
-            <a href="resources/env_videos/kitchen_test.mp4"><video src = "resources/env_videos/kitchen_test.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-
-        </tr>
-
-        </table><br>
-
-      <div style="width:800px; margin:0 auto; text-align=right" align="justify">
-        We evaluate our approach on one navigation and two robot manipulation environments. In each environment, we have a diverse set of training tasks for collecting large datasets of agent experience (see top row), which we use to train skill embedding and skill prior. We then leverage them to guide learning on new downstream tasks (bottom row), which require generalization to a larger maze, an environment with more blocks and novel combinations of the learned kitchen manipulation skills.
-      </div>
-      <hr>
-
-
-      <!-- ################### EXPLORATION #################### -->
-
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Improved Exploration with Learned Skill Priors</h1></center>
-      </div>
-      <br/>
-          <center><a href="resources/spirl_exploration.png"><img src = "resources/spirl_exploration.png" width="1300px"></img></a><br></center>
-          <div style="width:800px; margin:0 auto;" align="justify">
-        Exploration behavior of our method vs. alternative transfer approaches on the downstream maze task. Through learned skill embeddings and skill priors our method can explore the environment more widely than randomly sampling learned skills ("Skills w/o Prior") or learning priors over primitive actions ("Flat Prior"). Uniformly random exploration in primitive action space ("Random") is not able to coherently explore the maze. We visualize positions of the agent during 1M steps of exploration rollouts in blue and mark episode start and goal positions in green and red respectively.
-      </div>
-      <br/><hr>
-
-
-      <!-- ################### POLICY ROLLOUTS #################### -->
-
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Long-Horizon Manipulation with Skill Priors</h1></center>
-      </div>
-      <table align=center width=1000px>
-        <tr>
-          <td style="width:24%">
-            <center><h2>SAC</h2></center>
-            <a href="resources/policy_videos/sac.mp4"><video src = "resources/policy_videos/sac.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>Flat Prior</h2></center>
-            <a href="resources/policy_videos/flat_prior.mp4"><video src = "resources/policy_videos/flat_prior.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>SSP (no prior)</h2></center>
-            <a href="resources/policy_videos/no_prior.mp4"><video src = "resources/policy_videos/no_prior.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-          <td style="width:1%"></td>
-          <td style="width:24%">
-            <center><h2>SPiRL (ours)</h2></center>
-            <a href="resources/policy_videos/ours.mp4"><video src = "resources/policy_videos/ours.mp4" width="100%" autoplay muted loop></video></a>
-          </td>
-        </tr>
-      </table>
-      <br><div style="width:800px; margin:0 auto;" align="justify">
-        Rollouts from the trained policies on the challenging kitchen manipulation task. The agent needs to perform four subtasks: open microwave, move kettle, turn on stove, switch on light. Since the agent only receives reward upon completion of a subtask, conventional model-free RL (SAC) struggles to learn the task. A learned prior over primitive actions ("Flat Prior") or learned skill embeddings ("Skill Space Policy w/o Prior") can improve exploration, but only our approach learns to solve all four subtasks.
-      </div></br><hr>
-
-
-      <!-- ################### QUANTITATIVE RESULTS #################### -->
-      <div style="width:800px; margin:0 auto; text-align=center">
-        <center><h1>Quantitative Results</h1></center>
-      </div>
-      <br/>
-          <center><img src = "resources/spirl_quantitative_results.png" width="1000px"></img><br></center>
-      <hr>
-
-      <!-- ################### CODE #################### -->
-      <center id="sourceCode"><h1>Source Code</h1></center>
-      <div style="width:800px; margin:0 auto; text-align=right">
-      We have released our implementation in PyTorch on the github page. Try our code!
-      </div>
-      <div class="table-like">
-        <span style="font-size:28px"><a href='https://github.com/clvrai/spirl'>[GitHub]</a></span>   <!-- UPDATE -->
-      </div>
-      <br><hr>
-
-      <!-- ################### CITATION #################### -->
-      <table align=center width=850px>
-        <center><h1>Citation</h1></center>
-        <tr>
-        <td width=100%>
-        <pre><code style="display:block; white-space:pre-wrap">
-          @inproceedings{pertsch2020spirl,
-            title={Accelerating Reinforcement Learning with Learned Skill Priors},
-            author={Karl Pertsch and Youngwoon Lee and Joseph J. Lim},
-            booktitle={Conference on Robot Learning (CoRL)},
-            year={2020},
-          }
-        </code></pre>
-          </td>
-          </tr>
-      </table>
-    <br><hr>
-
-
-      <!-- <div style="width:800px; margin:0 auto; text-align=center">
+        <!-- Interpolating. -->
+        <h3 class="title is-4">Framework Overview</h3>
+        <div class="content has-text-justified" bis_skin_checked="1">
+          <p>
+            The training process is divided into two phases. 
+            In Phase I, a VAE with GRU modules is used to pre-train a skill representation model from a dataset of action trajectories. 
+            The model leverages a DPM to capture the non-parametric nature of skill priors, aiding in learning precise action patterns and subsequent effective task representations. 
+            In Phase II, this pre-trained skill decoder and prior are deployed within a RL framework to address long-horizon manipulation tasks. 
+            Here, the upstream inference model uses soft actor-critic structure to learn specific task reasoning, ensuring the successful execution of complex, extended long-horizon tasks.
+          </p>
+        </div>
+        <img src="static/images/helios_framework.png" class="interpolation-image" alt="Interpolate start reference image.">
         <br>
-        <center>Code and full paper to be released soon.</center>
-      </div> -->
-      </table>
+        <br>
+            <center><b>Fig. 1: HELIOS Framework overview.</b></center>
+        <br>
+        <br>
 
-<script xml:space="preserve" language="JavaScript">
-hideallbibs();
-</script>
-</div>
-</body>
-</html>
+        <h3 class="title is-4">Quantitative Results</h3>
+
+
+
+        <h3 class="title is-4">Qualitative Results</h3>
+
+      </div>
+    </div>
+
+  </div>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Paper poster -->
+
+<!--End paper poster -->
+
+
+<!--BibTex citation -->
+  
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
