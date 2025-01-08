@@ -9,7 +9,7 @@
 [Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
 [Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
 [Achim Lilienthal](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>1,2</sup>, 
+[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>2</sup>, 
 [Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
 
 <sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich, Germany
