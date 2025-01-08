@@ -17,7 +17,7 @@
 <sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China
 
 
-The official implementation of robotic long-horizon manipulation refincement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
+The official implementation of robotic long-horizon manipulation reinforcement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
 
 <p align="center">
 <img src="docs/static/images/helios_framework.png" width="800"></p></img>
