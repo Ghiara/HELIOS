@@ -1,23 +1,32 @@
 # Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning
 
-
-#### [[Project Website]](https://ghiara.github.io/HELIOS/) [[Paper]](docs/static/helios_paper.pdf)
-
-[Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, 
-[Xiangtong Yao](https://www.ce.cit.tum.de/air/people/xiangtong-yao/)<sup>1</sup>, 
-[Kejia Chen](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Achim Lilienthal](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>,
-[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>2</sup>, 
-[Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
-
-<sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich, Germany
-
-<sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China
-
-
+<div align="center">
 The official implementation of robotic long-horizon manipulation reinforcement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
+
+### [[Project Website]](https://ghiara.github.io/HELIOS/)
+
+[Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, [Xiangtong Yao](https://www.ce.cit.tum.de/air/people/xiangtong-yao/)<sup>1</sup>, [Kejia Chen](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, [Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, [Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, 
+
+[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>2,&dagger;</sup>, [Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
+</div>
+
+
+<p align="center">
+<small><sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich, Germany</small>
+<br><small><sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China</small>
+<br><small><sup>&dagger;</sup>Corresponding author: zhenshan.bing@tum.de</small>
+</p>
+
+
+## Abstract
+Reinforcement learning (RL) methods typically learn new tasks from scratch, often disregarding prior knowledge that could accelerate the learning process. 
+While some methods incorporate previously learned skills, they usually rely on a fixed structure, such as a single Gaussian distribution, to define skill priors. 
+This rigid assumption can restrict the diversity and flexibility of skills, particularly in complex, long-horizon tasks. 
+In this work, we introduce a method that models potential primitive skill motions as having non-parametric properties with an unknown number of underlying features. 
+We utilize a Bayesian non-parametric model, specifically Dirichlet Process Mixtures, enhanced with birth and merge heuristics, to pre-train a skill prior that effectively captures the diverse nature of skills. 
+Additionally, the learned skills are explicitly trackable within the prior space, enhancing interpretability and control. 
+By integrating this flexible skill prior into an RL framework, our approach surpasses existing methods in long-horizon manipulation tasks, enabling more efficient skill transfer and task success in complex environments. 
+Our findings show that a richer, non-parametric representation of skill priors significantly improves both the learning and execution of challenging robotic tasks. 
 
 <p align="center">
 <img src="docs/static/images/helios_framework.png" width="800"></p></img>
@@ -26,15 +35,15 @@ The official implementation of robotic long-horizon manipulation reinforcement l
 
 
 
-## Requirements
+## 1. Requirements
 
 - python 3.7+
 - mujoco 2.0 (for RL experiments)
 - Ubuntu 20.04 LTS or 22.04 LTS
 
-## Installation Instructions
+## 2. Installation Instructions
 
-### 1. Create and activate a virtual environment, install all requirements
+### 2.1 Create and activate a virtual environment, install all requirements
 
 ```bash
 # Setup the environment
@@ -48,7 +57,7 @@ pip3 install -r requirements.txt
 pip3 install -e .
 ```
 
-### 2. Define environment variables to specify the root experiment and data directories
+### 2.2 Define environment variables to specify the root experiment and data directories
 
 ```bash
 # Experiments folder stores trained models
@@ -60,20 +69,20 @@ export EXP_DIR=./experiments
 export DATA_DIR=./data
 ```
 
-### 3. Install the Fork of D4RL benchmark
+### 2.3 Install the Fork of D4RL benchmark
 
 Follow the [D4RL Fork link](https://github.com/kpertsch/d4rl) and install the fork according to instructions.
 This fork includes the new key 'completed_tasks' in the Kitchen environment, which is **necessary for the correct RL phase**.
 
-### 4. Log in to WandB to track results
+### 2.4 Log in to WandB to track results
 
 [WandB](https://www.wandb.com/) is used for **logging the training process**. Before running any of the commands below, 
 create an account and then change the WandB entity and project name at the top of [train.py](helios/train.py) and
 [rl/train.py](helios/rl/train.py) to match your account.
 
-## CLI for Training
+## 3. CLI for Training
 
-### 1. Train DPM based Skill Prior
+### 3.1 Train DPM based Skill Prior
 
 To train a **DPM based Generalized Skill Prior** model, run:
 ```bash
@@ -81,7 +90,7 @@ python3 helios/train.py --path=helios/configs/skill_prior_learning/kitchen/helio
 
 ```
 
-### 2. Train HELIOS for downstream Long-Horizon RL manipulation (e.g., Franka kitchen)
+### 3.2 Train HELIOS for downstream Long-Horizon RL manipulation (e.g., Franka kitchen)
 
 After DPM based Skill Prior model is trained, to train **HELIOS** agent on the franka kitchen long-horizon tasks, run (change the index number of your available GPU device accordingly):
 ```bash
@@ -109,7 +118,7 @@ python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/helios_cl --seed=9 
 
 
 
-### 3. Train Baseline Models
+### 3.3 Train Baseline Models
 
 - Run **Vanilla SAC**:
 ```bash
@@ -240,13 +249,13 @@ python3 helios/rl/train.py --path=helios/configs/hrl/kitchen/no_prior/ --seed=9 
 Again, all commands can be run on `maze / block stacking` by replacing `kitchen` with the respective environment in the paths
 (after downloading the datasets).
 
-## Starting to Modify the Code
+## 4. Starting to Modify the Code
 
-### Modifying the hyperparameters
+### 4.1 Modifying the hyperparameters
 The default hyperparameters are defined in the respective model files, e.g. in [```SkillPriorMdl```](helios/models/skill_prior_mdl.py#L28) for the HELIOS model. [```SPiRL_DPMM_Mdl```](helios/models/CL_SPIRL_DPMM_mdl.py#L21) defines DPM related hyperparameters. Modifications to these parameters can be defined through the experiment config files (passed to the respective command via the `--path` variable). For an example, see [```kitchen/hierarchical/conf.py```](helios/configs/skill_prior_learning/kitchen/hierarchical/conf.py).
 
 
-### Adding a new dataset for model training
+### 4.2 Adding a new dataset for model training
 All code that is dataset-specific should be placed in a corresponding subfolder in `helios/data`. 
 To add a data loader for a new dataset, the `Dataset` classes from [```data_loader.py```](helios/components/data_loader.py) need to be subclassed
 and the `__getitem__` function needs to be overwritten to load a single data sample. The output `dict` should include the following
@@ -264,12 +273,12 @@ All datasets used with the codebase so far have been based on `HDF5` files. The 
 HDF5-files in a directory and split them in `train/val/test` based on percentages. The `VideoDataset` class provides
 many functionalities for manipulating sequences, like randomly cropping subsequences, padding etc.
 
-### Adding a new RL environment
+### 4.3 Adding a new RL environment
 To add a new RL environment, simply define a new environent class in `helios/rl/envs` that inherits from the environment interface
 in [```helios/rl/components/environment.py```](helios/rl/components/environment.py).
 
 
-### Modifying the skill prior model architecture
+### 4.4 Modifying the skill prior model architecture
 Start by defining a model class in the `helios/models` directory that inherits from the `BaseModel` or `SkillPriorMdl` class. 
 The new model needs to define the architecture in the constructor (e.g. by overwriting the `build_network()` function), 
 implement the forward pass and loss functions,
@@ -293,7 +302,7 @@ conveniently reused for easy architecture definitions. Below are some links to t
 | DPM-based Loss functions |[```DPMM_KLDivLoss```](helios/modules/losses.py#L59)| modified loss functions, involving weighted sum of KL-divergencies |
 
 
-### Adding a new RL algorithm
+### 4.5 Adding a new RL algorithm
 The core RL algorithms are implemented within the `Agent` class. For adding a new algorithm, a new file needs to be created in
 `helios/rl/agents` and [```BaseAgent```](helios/rl/components/agent.py#L19) needs to be subclassed. In particular, any required
 networks (actor, critic etc) need to be constructed and the `update(...)` function needs to be overwritten. For an example, 
@@ -305,7 +314,7 @@ The main SPIRL skill prior regularized RL algorithm is implemented in [```Action
 
 
 
-### Detailed Code Structure
+### 4.6 Detailed code structure
 
 ```bash
 helios
@@ -351,7 +360,7 @@ helios
 
 
 
-## Implementation & Acknowledgement
+## 5. Implementation & Acknowledgement
 
 The implementation of this work inherits from three repositories:
 
