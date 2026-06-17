@@ -1,4 +1,4 @@
-# Pretrained Bayesian Non-parametric Knowledge Prior in Robotic Long-Horizon Reinforcement Learning
+# Robotic Long-Horizon Manipulation with Bayesian Non-parametric Skill Priors
 
 <div align="center">
 The official implementation of robotic long-horizon manipulation reinforcement learning framework -- **HELIOS**: Hierarchical Encoding of Long-horizon Inference with Off-policy Bayesian Non-parametric Skills Prior
