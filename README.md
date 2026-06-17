@@ -5,28 +5,21 @@ The official implementation of robotic long-horizon manipulation reinforcement l
 
 ### [[Project Website]](https://ghiara.github.io/HELIOS/)
 
-[Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, [Xiangtong Yao](https://www.ce.cit.tum.de/air/people/xiangtong-yao/)<sup>1</sup>, [Kejia Chen](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, [Yansong Wu](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, [Liding Zhang](https://kifabrik.mirmi.tum.de/team/)<sup>1</sup>, 
+[Yuan Meng](https://github.com/Ghiara)<sup>1,</sup>, [Xiangtong Yao]()<sup>1</sup>, [Yansong Wu]()<sup>1</sup>, [Liding Zhang]()<sup>1</sup>, [Yixiao Nie]()<sup>1</sup>,
 
-[Zhenshan Bing](https://github.com/zhenshan-bing)<sup>2,&dagger;</sup>, [Alois Knoll](https://www.ce.cit.tum.de/air/people/prof-dr-ing-habil-alois-knoll/)<sup>1</sup>,
+[Zhenshan Bing]()<sup>2,&dagger;</sup>, [Alois Knoll]()<sup>1</sup>,
 </div>
 
 
 <p align="center">
 <small><sup>1</sup>The School of Computation, Information and Technology, Technical University of Munich, Germany</small>
 <br><small><sup>2</sup>State Key Laboratory for Novel Software Technology, Nanjing University, China</small>
-<br><small><sup>&dagger;</sup>Corresponding author: zhenshan.bing@tum.de</small>
+<br><small><sup>&dagger;</sup>Corresponding author: bing@nju.edu.cn</small>
 </p>
 
 
 ## Abstract
-Reinforcement learning (RL) methods typically learn new tasks from scratch, often disregarding prior knowledge that could accelerate the learning process. 
-While some methods incorporate previously learned skills, they usually rely on a fixed structure, such as a single Gaussian distribution, to define skill priors. 
-This rigid assumption can restrict the diversity and flexibility of skills, particularly in complex, long-horizon tasks. 
-In this work, we introduce a method that models potential primitive skill motions as having non-parametric properties with an unknown number of underlying features. 
-We utilize a Bayesian non-parametric model, specifically Dirichlet Process Mixtures, enhanced with birth and merge heuristics, to pre-train a skill prior that effectively captures the diverse nature of skills. 
-Additionally, the learned skills are explicitly trackable within the prior space, enhancing interpretability and control. 
-By integrating this flexible skill prior into an RL framework, our approach surpasses existing methods in long-horizon manipulation tasks, enabling more efficient skill transfer and task success in complex environments. 
-Our findings show that a richer, non-parametric representation of skill priors significantly improves both the learning and execution of challenging robotic tasks. 
+Long-horizon manipulation under sparse rewards remains challenging for reinforcement learning due to delayed feedback and inefficient exploration. Existing skill-based approaches often assume a fixed parametric prior (e.g., a single Gaussian), limiting their ability to capture diverse and multi-modal skill structures required for complex tasks. We propose a Bayesian non-parametric skill prior that models temporally extended skills in a structured latent space using a Dirichlet Process Mixture, enabling adaptive skill discovery without predefining the number of components. Integrated into a hierarchical RL framework, the learned prior guides high-level skill selection while a pretrained decoder generates temporally abstracted actions, improving exploration efficiency in sparse-reward settings. Experiments on Franka Kitchen, LIBERO-Long, Meta-World, and a real robot demonstrate consistent gains in long-horizon manipulation, achieving over 0.8 success rate within 1.5M steps, whereas SAC fails to converge even after 5M steps ($<$0.1). Compared to a single-Gaussian prior baseline, our model yields an average improvement of 21.8\%.
 
 <p align="center">
 <img src="docs/static/images/helios_framework.png" width="800"></p></img>
